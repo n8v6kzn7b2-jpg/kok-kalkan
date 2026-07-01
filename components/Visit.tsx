@@ -5,8 +5,10 @@ import type { Messages } from "@/lib/i18n";
 /** Location, hours, contact and an embedded map with directions. */
 export default function Visit({ m }: { m: Messages }) {
   const mapsQuery = encodeURIComponent(address.mapsQuery);
-  const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
-  const embedUrl = `https://maps.google.com/maps?q=${mapsQuery}&z=16&output=embed`;
+  // Prefer the exact share link; fall back to a place query if absent.
+  const directionsUrl =
+    address.mapsUrl || `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
+  const embedUrl = `https://maps.google.com/maps?q=${address.geo.lat},${address.geo.lng}&z=16&output=embed`;
 
   return (
     <section id="visit" className="section grid gap-10 md:grid-cols-2 md:items-start">
