@@ -2,16 +2,14 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [claude/new-session-qib9as, main]
+    branches: [main]
   workflow_dispatch:
 
-# Allow the workflow to enable Pages and publish to it.
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# One deploy at a time; let an in-progress run finish.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -27,7 +25,6 @@ jobs:
           node-version: 22
           cache: npm
 
-      # Enables Pages with the "GitHub Actions" source if not already on.
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
@@ -40,7 +37,6 @@ jobs:
         env:
           GITHUB_PAGES: "true"
 
-      # Prevent Jekyll from stripping Next's _next/ asset folder.
       - run: touch ./out/.nojekyll
 
       - uses: actions/upload-pages-artifact@v3
