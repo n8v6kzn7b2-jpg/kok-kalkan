@@ -50,7 +50,9 @@ export async function generateMetadata({
       url: `${siteUrl}/${locale}`,
       images: [
         {
-          url: "/assets/images/og-terrace-sunset.jpg",
+          // Absolute URL incl. the /kok-kalkan base path — a root-relative
+          // path would resolve against the origin and drop the base path.
+          url: `${siteUrl}/assets/images/og-terrace-sunset.jpg`,
           width: 1200,
           height: 630,
           alt: m.meta.ogAlt,
@@ -61,7 +63,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: m.meta.title,
       description: m.meta.description,
-      images: ["/assets/images/og-terrace-sunset.jpg"],
+      images: [`${siteUrl}/assets/images/og-terrace-sunset.jpg`],
     },
     // Favicon is provided by the file convention at app/icon.svg.
   };

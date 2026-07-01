@@ -2,6 +2,13 @@ import Image from "next/image";
 import { getSlot, slotImageExists, aspectToRatio } from "@/lib/images";
 
 /**
+ * next/image does not prepend basePath to a raw `unoptimized` src in a static
+ * export, so on GitHub Pages (`/kok-kalkan`) a root-relative "/assets/…" 404s.
+ * Prefix it ourselves, matching the basePath the workflow sets via GITHUB_PAGES.
+ */
+const assetPrefix = process.env.GITHUB_PAGES === "true" ? "/kok-kalkan" : "";
+
+/**
  * Renders a real photo from a manifest slot when it exists, otherwise a
  * calm, palette-toned placeholder carrying the brand linemark. The alt text
  * always comes from the manifest, so SEO/accessibility hold either way.
@@ -34,7 +41,7 @@ export default function SmartImage({
     >
       {exists ? (
         <Image
-          src={`/assets/images/${slot.file}`}
+          src={`${assetPrefix}/assets/images/${slot.file}`}
           alt={slot.alt}
           fill
           sizes={sizes}
